@@ -4,7 +4,15 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger.js';
 import { errorHandler } from './middlewares/error.middleware.js';
+
 import authRoutes from './routes/auth.routes.js';
+import destinationRoutes from './routes/destination.routes.js';
+import hotelRoutes from './routes/hotel.routes.js';
+import flightRoutes from './routes/flight.routes.js';
+import offerRoutes from './routes/offer.routes.js';
+import reviewRoutes from './routes/review.routes.js';
+import newsletterRoutes from './routes/newsletter.routes.js';
+import wishlistRoutes from './routes/wishlist.routes.js';
 
 export const createApp = (): Application => {
   const app = express();
@@ -36,6 +44,13 @@ export const createApp = (): Application => {
 
   // Mount API Routers
   app.use('/api/auth', authRoutes);
+  app.use('/api/destinations', destinationRoutes);
+  app.use('/api/hotels', hotelRoutes);
+  app.use('/api/flights', flightRoutes);
+  app.use('/api/offers', offerRoutes);
+  app.use('/api/reviews', reviewRoutes);
+  app.use('/api/newsletter', newsletterRoutes);
+  app.use('/api/wishlist', wishlistRoutes);
 
   // Fallback 404 handler
   app.use((_req: Request, res: Response) => {

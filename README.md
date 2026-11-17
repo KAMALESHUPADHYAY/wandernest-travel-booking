@@ -7,7 +7,8 @@ WanderNest is a production-quality, Booking.com-inspired travel and accommodatio
 ### Frontend (`/client`)
 - **Framework**: Next.js 14 (App Router) + TypeScript
 - **Styling**: Tailwind CSS + shadcn/ui + Lucide Icons
-- **Motion & Transitions**: Framer Motion
+- **Design Tokens**: Booking.com Navy `#003B95`, Primary Blue `#0071C2`, Accent Gold `#FEBB02`
+- **Motion & Transitions**: Framer Motion scroll animations
 - **Data Fetching & State**: TanStack Query (React Query v5) + Context API
 - **Charts**: Recharts
 - **Maps**: Leaflet / OpenStreetMap
@@ -59,12 +60,31 @@ Client runs at `http://localhost:3000`
 
 ---
 
-## Roadmap & Phases
+## Roadmap & Progress
 - [x] **Phase 1**: Architecture, Monorepo Setup, Prisma Database & Auth System (JWT/bcrypt)
-- [ ] **Phase 2**: Booking.com-Style Landing Page & Dynamic Navigation
+- [x] **Phase 2**: Booking.com-Style Global Layout & 15-Section Dynamic Landing Page
 - [ ] **Phase 3**: Hotel & Destination Search Engine with Interactive Leaflet Map
 - [ ] **Phase 4**: Hotel & Room Detail Showcase System
 - [ ] **Phase 5**: Flight Search & Booking Engine
 - [ ] **Phase 6**: Multi-Step Checkout & Mock Payment Flow
 - [ ] **Phase 7**: User Travel Dashboard, Wishlist & Reviews
 - [ ] **Phase 8**: Admin Management Panel, Analytics & Production Polish
+
+---
+
+## Phase 2 Landing Page Highlights
+1. **Hero & Tabbed Search**: Stays & Flights switcher with real-time destination autocomplete, check-in/out date range, and guests & rooms counter popover.
+2. **Trust Badges Strip**: 2M+ properties, free cancellation, 24/7 care, and best price guarantee.
+3. **Trending Destinations**: Zoomable image cards with lowest night price cues.
+4. **Popular Hotels**: Star ratings, guest score badges, and live wishlist heart toggle.
+5. **Flight Deals**: Non-stop airline routes, duration breakdown, and direct booking CTAs.
+6. **Browse by Property Type**: Hotels, villas, resorts, apartments, chalets, and glamping domes.
+7. **Explore by Theme**: Beach, mountains, city lights, outdoor adventures, honeymoon, and family.
+8. **Top Destinations Tabs**: Tabbed regional explorer for India Escapes vs International destinations.
+9. **Special Offers & Live Countdown**: Live tick-by-tick timer, discount badge, and one-click copyable promo code (`SUMMER25`).
+10. **How It Works**: 3-step transparent booking walkthrough.
+11. **Testimonials**: Real traveler ratings and pros/cons feedback.
+12. **Travel Inspiration**: Curated editorial travel guide cards.
+13. **Animated Stats**: High-impact counters (2.5M+ stays, 150+ countries, 4.9/5 rating).
+14. **Newsletter Subscription**: Connected to backend REST API with database persistence and duplicate handling.
+15. **FAQ Accordion**: Interactive answers for cancellation policies, Genius rewards, and payments.
