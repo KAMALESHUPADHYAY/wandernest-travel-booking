@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { formatPrice } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Plane, Luggage, Clock, CheckCircle2, AlertCircle, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
@@ -31,6 +32,7 @@ interface FlightCardProps {
 }
 
 export function FlightCard({ flight, onSelect }: FlightCardProps) {
+  const router = useRouter();
   const [isSelected, setIsSelected] = useState(false);
 
   // Format times
@@ -60,9 +62,12 @@ export function FlightCard({ flight, onSelect }: FlightCardProps) {
       sessionStorage.setItem('wandernest_selected_flight', JSON.stringify(flight));
     }
     toast.success(`Flight selected: ${flight.airline} (${flight.flightNumber})`, {
-      description: `${flight.departureCity} (${flight.departureAirport}) ➔ ${flight.arrivalCity} (${flight.arrivalAirport}) for ${formatPrice(flight.price, 'INR')}. Ready for checkout!`,
+      description: `${flight.departureCity} (${flight.departureAirport}) ➔ ${flight.arrivalCity} (${flight.arrivalAirport}) for ${formatPrice(flight.price, 'INR')}. Directing to checkout...`,
     });
     if (onSelect) onSelect(flight);
+    setTimeout(() => {
+      router.push(`/checkout?type=flight&flightId=${flight.id}&departDate=${encodeURIComponent(flight.departureTime)}&passengers=1`);
+    }, 400);
   };
 
   return (

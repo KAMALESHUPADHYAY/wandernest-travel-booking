@@ -13,6 +13,7 @@ import offerRoutes from './routes/offer.routes.js';
 import reviewRoutes from './routes/review.routes.js';
 import newsletterRoutes from './routes/newsletter.routes.js';
 import wishlistRoutes from './routes/wishlist.routes.js';
+import bookingRoutes from './routes/booking.routes.js';
 
 export const createApp = (): Application => {
   const app = express();
@@ -51,6 +52,7 @@ export const createApp = (): Application => {
   app.use('/api/reviews', reviewRoutes);
   app.use('/api/newsletter', newsletterRoutes);
   app.use('/api/wishlist', wishlistRoutes);
+  app.use('/api/bookings', bookingRoutes);
 
   // Fallback 404 handler
   app.use((_req: Request, res: Response) => {

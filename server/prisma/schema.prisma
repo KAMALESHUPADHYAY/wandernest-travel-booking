@@ -180,6 +180,16 @@ model Booking {
   guestDetails       String?      // JSON string
   specialRequests    String?
 
+  // Financial Breakdown & Promotions
+  basePrice          Float?
+  taxAmount          Float?
+  serviceFee         Float?
+  discountAmount     Float?       @default(0)
+  promoCode          String?
+  refundAmount       Float?       @default(0)
+  cancellationReason String?
+  cancelledAt        DateTime?
+
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
 
@@ -272,6 +282,8 @@ model Offer {
   imageUrl        String
   validUntil      DateTime
   category        String       @default("HOTEL") // "HOTEL", "FLIGHT", "ALL"
+  usageLimit      Int          @default(100)
+  usageCount      Int          @default(0)
   active          Boolean      @default(true)
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt

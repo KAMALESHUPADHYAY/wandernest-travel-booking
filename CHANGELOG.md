@@ -5,6 +5,35 @@ All notable changes to the WanderNest project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-11-17
+### Added
+- **Multi-Step Checkout Flow (`/checkout`)**:
+  - Unified checkout engine handling **both Hotels and Flights** with responsive 3-step progress stepper.
+  - **Step 1 (Review Selection)**: Summarizes property or airline route, stay/travel dates, room type/cabin class, guest count, cancellation terms preview, and transparent price breakdown (Base rate, 12% GST/tourism tax, 3% service fee, promo discount).
+  - **Interactive Promo Code System**: Real-time validation via `/api/bookings/validate-promo` with instant savings preview and quick-test coupon chips (`WANDER10`, `HOTEL20`, `FLY15`).
+  - **Step 2 (Traveler & Guest Details)**: Primary contact form with instant profile autofill, guest names, special requests textarea, and Zod client/server validation.
+  - **Step 3 (Mock Payment Gateway)**: High-trust simulation environment with clear *"DEMO PAYMENT - NO REAL MONEY"* banner, quick-fill test chips for Demo Visa (`4242 4242...`), Demo Mastercard (`5555 5555...`), and Instant UPI ID, tabbed payment methods (Card, UPI, NetBanking), and PCI-DSS simulation badge. Real card numbers and CVV codes are never stored.
+- **Booking Confirmation & PDF Invoice (`/checkout/confirmation/[bookingNumber]`)**:
+  - Prominent celebration status banner with verified booking reference (e.g. `WN-XXXXXX`).
+  - Comprehensive trip summary with hotel address/flight route, room/cabin, guest list, and transaction receipt.
+  - **Printable / Downloadable PDF Invoice**: Browser-native `@media print` styling generating a clean, branded 1-page travel voucher & tax receipt via "Print / Save PDF" button.
+  - **Cancellation & Refund Policy**: Automatic cutoff rule calculation (> 48h = 100% full refund; 24h-48h = 50% partial refund; < 24h = non-refundable), cancellation modal with reason input, instant status update to `CANCELLED`, and automatic payment refund record.
+- **Backend Booking & Payment Engine**:
+  - `POST /api/bookings`: Interactive database transaction (`prisma.$transaction`) verifying room/flight availability, preventing double-bookings, applying valid promotions, creating unique reference numbers, recording `Booking` and `Payment` models, and dispatching confirmation emails.
+  - `GET /api/bookings` & `GET /api/bookings/:bookingNumber`: Authenticated endpoints with ownership protection (users can only access their own bookings, admins can view all).
+  - `POST /api/bookings/:bookingNumber/cancel`: Calculates exact refund percentages and marks booking cancelled and payment refunded.
+  - `POST /api/bookings/validate-promo`: Validates promo expiration, category restrictions, and usage limits.
+  - `POST /api/bookings/check-availability`: Proactively verifies availability before booking creation.
+- **Mock Email Service (Nodemailer + Ethereal)**:
+  - Generates HTML confirmation and cancellation email vouchers.
+  - Logs live Ethereal email preview URLs in server console for instant verification.
+- **Automated Test Suite (`npm test`)**:
+  - `server/src/tests/booking.test.ts` covering 4 critical test suites:
+    1. Base price, tax, service fee, and promo discount calculation.
+    2. Promo code active, expired, and usage limit validation.
+    3. Hotel room capacity and double-booking conflict prevention.
+    4. 48h/24h tiered cancellation refund policy rules.
+
 ## [0.4.0] - 2026-11-17
 ### Added
 - **Flight Search Engine (`/flights`)**:

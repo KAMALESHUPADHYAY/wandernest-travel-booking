@@ -65,11 +65,10 @@ Client runs at `http://localhost:3000`
 - [x] **Phase 2**: Booking.com-Style Global Layout & 15-Section Dynamic Landing Page
 - [x] **Phase 3**: Hotel Search Engine with Interactive Leaflet Map, Multi-Criteria Filters, and Hotel Detail Showcase
 - [x] **Phase 4**: Flight Search Engine with Flexible Date Calendar, Destination Guides & Open-Meteo Live Weather
-- [ ] **Phase 5**: Multi-Step Checkout, Mock Payment Gateway & Booking Confirmation
+- [x] **Phase 5**: Multi-Step Checkout, Mock Payment Gateway & Booking Confirmation with PDF Invoice
 - [ ] **Phase 6**: User Travel Dashboard, Wishlist & Reviews System
 - [ ] **Phase 7**: Admin Management Portal & Analytics
 - [ ] **Phase 8**: Production Polish, SEO, Dark Mode, Performance & Deployment
-- [ ] **Phase 8**: Admin Management Panel, Analytics & Production Polish
 
 ---
 
