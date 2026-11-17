@@ -63,11 +63,12 @@ Client runs at `http://localhost:3000`
 ## Roadmap & Progress
 - [x] **Phase 1**: Architecture, Monorepo Setup, Prisma Database & Auth System (JWT/bcrypt)
 - [x] **Phase 2**: Booking.com-Style Global Layout & 15-Section Dynamic Landing Page
-- [x] **Phase 3**: Destinations & Hotel Search Engine with Interactive Leaflet Map, Multi-Criteria Filters, and Hotel Detail Showcase
-- [ ] **Phase 4**: Hotel & Room Detail Showcase System
-- [ ] **Phase 5**: Flight Search & Booking Engine
-- [ ] **Phase 6**: Multi-Step Checkout & Mock Payment Flow
-- [ ] **Phase 7**: User Travel Dashboard, Wishlist & Reviews
+- [x] **Phase 3**: Hotel Search Engine with Interactive Leaflet Map, Multi-Criteria Filters, and Hotel Detail Showcase
+- [x] **Phase 4**: Flight Search Engine with Flexible Date Calendar, Destination Guides & Open-Meteo Live Weather
+- [ ] **Phase 5**: Multi-Step Checkout, Mock Payment Gateway & Booking Confirmation
+- [ ] **Phase 6**: User Travel Dashboard, Wishlist & Reviews System
+- [ ] **Phase 7**: Admin Management Portal & Analytics
+- [ ] **Phase 8**: Production Polish, SEO, Dark Mode, Performance & Deployment
 - [ ] **Phase 8**: Admin Management Panel, Analytics & Production Polish
 
 ---

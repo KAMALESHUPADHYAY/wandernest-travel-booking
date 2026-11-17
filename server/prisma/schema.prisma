@@ -39,6 +39,10 @@ model Destination {
   city         String
   description  String
   image        String
+  category     String     @default("City")
+  bestTime     String?    @default("October to March")
+  attractions  String?    @default("[]")
+  gallery      String?    @default("[]")
   popular      Boolean    @default(false)
   featured     Boolean    @default(false)
   latitude     Float
@@ -133,6 +137,7 @@ model Flight {
   stops             Int          @default(0)
   price             Float
   cabinClass        String       @default("ECONOMY") // "ECONOMY", "BUSINESS", "FIRST"
+  baggage           String?      @default("7kg Cabin + 15kg Check-in")
   seatAvailability  Int          @default(50)
   featured          Boolean      @default(false)
   createdAt         DateTime     @default(now())
