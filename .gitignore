@@ -17,17 +17,27 @@ server/build/
 
 # Environment files
 .env
+.env.*
 .env*.local
+*.env
+*.env.*
 server/.env
 client/.env.local
+client/.env*.local
+!.env.example
+!*.env.example
+!**/.env.example
 
 # Databases
+dev.db
+*.db
+*.db-journal
 *.sqlite
 *.sqlite3
 *.sqlite-journal
-*.db
-*.db-journal
+server/prisma/dev.db
 server/prisma/*.db
+server/prisma/*.db-journal
 server/prisma/*.sqlite
 server/prisma/*.sqlite-journal
 
