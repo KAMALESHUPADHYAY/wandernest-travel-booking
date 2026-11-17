@@ -11,7 +11,7 @@ WanderNest is a production-quality, Booking.com-inspired travel and accommodatio
 - **Motion & Transitions**: Framer Motion scroll animations
 - **Data Fetching & State**: TanStack Query (React Query v5) + Context API
 - **Charts**: Recharts
-- **Maps**: Leaflet / OpenStreetMap
+- **Maps**: Leaflet / OpenStreetMap with dynamic HTML price pins
 
 ### Backend (`/server`)
 - **Runtime & Framework**: Node.js + Express + TypeScript
@@ -63,7 +63,7 @@ Client runs at `http://localhost:3000`
 ## Roadmap & Progress
 - [x] **Phase 1**: Architecture, Monorepo Setup, Prisma Database & Auth System (JWT/bcrypt)
 - [x] **Phase 2**: Booking.com-Style Global Layout & 15-Section Dynamic Landing Page
-- [ ] **Phase 3**: Hotel & Destination Search Engine with Interactive Leaflet Map
+- [x] **Phase 3**: Destinations & Hotel Search Engine with Interactive Leaflet Map, Multi-Criteria Filters, and Hotel Detail Showcase
 - [ ] **Phase 4**: Hotel & Room Detail Showcase System
 - [ ] **Phase 5**: Flight Search & Booking Engine
 - [ ] **Phase 6**: Multi-Step Checkout & Mock Payment Flow
@@ -72,19 +72,17 @@ Client runs at `http://localhost:3000`
 
 ---
 
-## Phase 2 Landing Page Highlights
-1. **Hero & Tabbed Search**: Stays & Flights switcher with real-time destination autocomplete, check-in/out date range, and guests & rooms counter popover.
-2. **Trust Badges Strip**: 2M+ properties, free cancellation, 24/7 care, and best price guarantee.
-3. **Trending Destinations**: Zoomable image cards with lowest night price cues.
-4. **Popular Hotels**: Star ratings, guest score badges, and live wishlist heart toggle.
-5. **Flight Deals**: Non-stop airline routes, duration breakdown, and direct booking CTAs.
-6. **Browse by Property Type**: Hotels, villas, resorts, apartments, chalets, and glamping domes.
-7. **Explore by Theme**: Beach, mountains, city lights, outdoor adventures, honeymoon, and family.
-8. **Top Destinations Tabs**: Tabbed regional explorer for India Escapes vs International destinations.
-9. **Special Offers & Live Countdown**: Live tick-by-tick timer, discount badge, and one-click copyable promo code (`SUMMER25`).
-10. **How It Works**: 3-step transparent booking walkthrough.
-11. **Testimonials**: Real traveler ratings and pros/cons feedback.
-12. **Travel Inspiration**: Curated editorial travel guide cards.
-13. **Animated Stats**: High-impact counters (2.5M+ stays, 150+ countries, 4.9/5 rating).
-14. **Newsletter Subscription**: Connected to backend REST API with database persistence and duplicate handling.
-15. **FAQ Accordion**: Interactive answers for cancellation policies, Genius rewards, and payments.
+## Phase 3 Search Engine & Detail Highlights
+1. **Search Results Page (`/hotels`)**:
+   - Collapsible filters sidebar (drawer on mobile) with price slider, star rating checkboxes (5, 4, 3 stars), guest review scores (4.8+, 4.5+, 4.0+), amenities (WiFi, Pool, Spa, Beachfront), and free cancellation filters.
+   - Sort dropdown: Top Rated First, Price Low-to-High, Price High-to-Low, Popularity, and Property Class.
+   - Shareable and refresh-safe: all filter criteria and sort options are synchronized to URL query parameters.
+   - View mode toggle: List View vs Interactive Leaflet Map View with custom HTML price badges (`$380`).
+   - Skeleton loading cards, dynamic pagination, and empty state with one-click "Clear All Filters".
+2. **Hotel Detail Page (`/hotels/[id]`)**:
+   - 5-image mosaic gallery with full-screen Lightbox modal and keyboard arrow navigation.
+   - Property overview, popular perks, and cancellation policy breakdown.
+   - Available room tiers with capacity, bed configurations, included breakfast/cancellation, and reserve actions.
+   - Sticky Reservation card calculating live nights, guests, and price.
+   - Embedded Leaflet map centered at exact hotel coordinates.
+   - Verified guest reviews list with pros, cons, traveler types, and score breakdown.
