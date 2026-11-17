@@ -1,0 +1,288 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -------------------------------------------------------------
+// 1. User Model (Auth & Role-Based Access)
+// -------------------------------------------------------------
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  password     String
+  name         String
+  avatar       String?
+  phone        String?
+  role         String     @default("USER") // "USER" | "ADMIN"
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  bookings     Booking[]
+  reviews      Review[]
+  wishlists    Wishlist[]
+
+  @@index([email])
+}
+
+// -------------------------------------------------------------
+// 2. Destination Model
+// -------------------------------------------------------------
+model Destination {
+  id           String     @id @default(uuid())
+  name         String
+  slug         String     @unique
+  country      String
+  city         String
+  description  String
+  image        String
+  popular      Boolean    @default(false)
+  featured     Boolean    @default(false)
+  latitude     Float
+  longitude    Float
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  hotels       Hotel[]
+  wishlists    Wishlist[]
+
+  @@index([slug])
+  @@index([country])
+}
+
+// -------------------------------------------------------------
+// 3. Hotel Model
+// -------------------------------------------------------------
+model Hotel {
+  id             String       @id @default(uuid())
+  name           String
+  slug           String       @unique
+  destinationId  String
+  address        String
+  city           String
+  country        String
+  latitude       Float
+  longitude      Float
+  rating         Float        @default(4.5)
+  reviewCount    Int          @default(0)
+  starRating     Int          @default(4)
+  pricePerNight  Float
+  images         String       // JSON-encoded string array: ["url1", "url2", ...]
+  amenities      String       // JSON-encoded string array: ["WiFi", "Pool", "Spa"]
+  description    String
+  policies       String?
+  featured       Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  destination    Destination  @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  rooms          Room[]
+  bookings       Booking[]
+  reviews        Review[]
+  wishlists      Wishlist[]
+
+  @@index([destinationId])
+  @@index([city])
+  @@index([pricePerNight])
+  @@index([rating])
+}
+
+// -------------------------------------------------------------
+// 4. Room Model
+// -------------------------------------------------------------
+model Room {
+  id             String       @id @default(uuid())
+  hotelId        String
+  name           String
+  type           String       // "Standard", "Deluxe", "Suite", "Family"
+  capacity       Int          @default(2)
+  bedType        String
+  pricePerNight  Float
+  originalPrice  Float?
+  size           Int?         // Square meters / sqft
+  amenities      String       // JSON array
+  images         String       // JSON array
+  availableCount Int          @default(5)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  hotel          Hotel        @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  bookings       Booking[]
+
+  @@index([hotelId])
+}
+
+// -------------------------------------------------------------
+// 5. Flight Model
+// -------------------------------------------------------------
+model Flight {
+  id                String       @id @default(uuid())
+  flightNumber      String       @unique
+  airline           String
+  airlineLogo       String
+  departureAirport  String
+  arrivalAirport    String
+  departureCity     String
+  arrivalCity       String
+  departureTime     DateTime
+  arrivalTime       DateTime
+  duration          Int          // minutes
+  stops             Int          @default(0)
+  price             Float
+  cabinClass        String       @default("ECONOMY") // "ECONOMY", "BUSINESS", "FIRST"
+  seatAvailability  Int          @default(50)
+  featured          Boolean      @default(false)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  bookings          Booking[]
+  reviews           Review[]
+
+  @@index([departureCity, arrivalCity])
+  @@index([departureTime])
+  @@index([price])
+}
+
+// -------------------------------------------------------------
+// 6. Booking Model
+// -------------------------------------------------------------
+model Booking {
+  id                 String       @id @default(uuid())
+  bookingNumber      String       @unique
+  userId             String
+  bookingType        String       // "HOTEL" | "FLIGHT"
+  status             String       @default("CONFIRMED") // "PENDING", "CONFIRMED", "CANCELLED", "COMPLETED"
+  totalAmount        Float
+  currency           String       @default("USD")
+  
+  // Hotel specific fields
+  checkIn            DateTime?
+  checkOut           DateTime?
+  guests             Int?         @default(1)
+  hotelId            String?
+  roomId             String?
+
+  // Flight specific fields
+  flightDepartureDate DateTime?
+  flightReturnDate   DateTime?
+  flightId           String?
+
+  // Guest & Contact Info
+  contactInfo        String       // JSON string
+  guestDetails       String?      // JSON string
+  specialRequests    String?
+
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hotel              Hotel?       @relation(fields: [hotelId], references: [id], onDelete: SetNull)
+  room               Room?        @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  flight             Flight?      @relation(fields: [flightId], references: [id], onDelete: SetNull)
+  payment            Payment?
+
+  @@index([userId])
+  @@index([bookingNumber])
+  @@index([status])
+}
+
+// -------------------------------------------------------------
+// 7. Payment Model
+// -------------------------------------------------------------
+model Payment {
+  id              String       @id @default(uuid())
+  bookingId       String       @unique
+  transactionId   String       @unique
+  amount          Float
+  currency        String       @default("USD")
+  method          String       @default("CREDIT_CARD") // "CREDIT_CARD", "PAYPAL", "UPI", "MOCK_WALLET"
+  status          String       @default("SUCCESS") // "PENDING", "SUCCESS", "FAILED", "REFUNDED"
+  paymentDetails  String?      // JSON string
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  booking         Booking      @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([transactionId])
+}
+
+// -------------------------------------------------------------
+// 8. Review Model
+// -------------------------------------------------------------
+model Review {
+  id          String       @id @default(uuid())
+  userId      String
+  hotelId     String?
+  flightId    String?
+  rating      Float
+  title       String
+  comment     String
+  pros        String?
+  cons        String?
+  tripType    String       @default("LEISURE") // "SOLO", "COUPLE", "FAMILY", "BUSINESS"
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hotel       Hotel?       @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  flight      Flight?      @relation(fields: [flightId], references: [id], onDelete: Cascade)
+
+  @@index([hotelId])
+  @@index([flightId])
+  @@index([userId])
+}
+
+// -------------------------------------------------------------
+// 9. Wishlist Model
+// -------------------------------------------------------------
+model Wishlist {
+  id            String       @id @default(uuid())
+  userId        String
+  hotelId       String?
+  destinationId String?
+  createdAt     DateTime     @default(now())
+
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hotel         Hotel?       @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  destination   Destination? @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, hotelId])
+  @@unique([userId, destinationId])
+  @@index([userId])
+}
+
+// -------------------------------------------------------------
+// 10. Offer Model
+// -------------------------------------------------------------
+model Offer {
+  id              String       @id @default(uuid())
+  title           String
+  badge           String
+  discountPercent Int          @default(15)
+  promoCode       String       @unique
+  description     String
+  imageUrl        String
+  validUntil      DateTime
+  category        String       @default("HOTEL") // "HOTEL", "FLIGHT", "ALL"
+  active          Boolean      @default(true)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([promoCode])
+  @@index([active])
+}
+
+// -------------------------------------------------------------
+// 11. Newsletter Model
+// -------------------------------------------------------------
+model Newsletter {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  subscribedAt DateTime     @default(now())
+  active       Boolean      @default(true)
+
+  @@index([email])
+}

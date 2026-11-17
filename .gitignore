@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js build
+client/.next/
+client/out/
+client/build/
+
+# Express server build
+server/dist/
+server/build/
+
+# Environment files
+.env
+.env*.local
+server/.env
+client/.env.local
+
+# Databases
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+*.db
+*.db-journal
+server/prisma/*.db
+server/prisma/*.sqlite
+server/prisma/*.sqlite-journal
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor / OS
+.DS_Store
+*.pem
+.vscode/
+.idea/
+*.swp
+Thumbs.db
